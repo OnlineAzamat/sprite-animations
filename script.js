@@ -1,4 +1,9 @@
 const canvas = document.getElementById('canvas1');
+const dropdown = document.getElementById('animations');
+dropdown.addEventListener('change', function(e) {
+  playerState = e.target.value;
+})
+
 const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 600;
 const CANVAS_HEIGHT = canvas.height = 600;
@@ -7,6 +12,8 @@ const playerImage = new Image();
 playerImage.src = 'shadow_dog.png';
 const spriteWidth = 575;
 const spriteHeight = 523;
+let playerState = 'run';
+
 let gameFrame = 0;
 const staggerFrames = 5;
 const spriteAnimations = [];
@@ -67,11 +74,11 @@ console.log(spriteAnimations);
 
 function animate(){
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations["idle"].loc.length;
+  let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations[playerState].loc.length;
   let frameX = spriteWidth * position;
-  let frameY = spriteAnimations["idle"].loc[position].y;
+  let frameY = spriteAnimations[playerState].loc[position].y;
 
-  ctx.drawImage(playerImage, frameX, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight); // ctx.fillRect(image, sx, sy, sw, sh(source height), dx, dy, dw, dh(destination height));
+  ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight); // ctx.fillRect(image, sx, sy, sw, sh(source height), dx, dy, dw, dh(destination height));
 
   gameFrame++;
   requestAnimationFrame(animate);
